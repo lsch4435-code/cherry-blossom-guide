@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 2026 한국 벚꽃 가이드</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 꽃잎 -->
+<div id="petals-box" aria-hidden="true"></div>
+
+<!-- 플로팅 -->
+<button id="btn-bgm" class="fbtn fbtn-bgm" title="BGM">♪</button>
+<button id="btn-petal" class="fbtn fbtn-petal" title="꽃잎 효과">🌸</button>
+
+<!-- 상단 바 -->
+<header class="topbar">
+  <a href="#" class="logo" onclick="go('map');return false">🌸 <span>벚꽃가이드</span> 2026</a>
+  <nav class="tabs" id="tabs">
+    <button class="tb active" data-t="map">📍 지도</button>
+    <button class="tb" data-t="fest">🎪 축제</button>
+    <button class="tb" data-t="spot">🏞️ 명소</button>
+    <button class="tb" data-t="exp">✨ 체험·음식</button>
+    <button class="tb" data-t="plan">🗓️ 플래너</button>
+    <button class="tb" data-t="blog">📝 블로그</button>
+    <button class="tb" data-t="fav">⭐ 즐겨찾기</button>
+  </nav>
+  <button id="hamburger" class="hamburger" aria-label="메뉴"><span></span><span></span><span></span></button>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div id="mmenu" class="mmenu"></div>
+
+<!-- ====== 탭 패널들 ====== -->
+<main>
+
+<!-- 지도 -->
+<section id="p-map" class="panel on">
+  <div class="map-wrap">
+    <h1 class="map-h1">2026 벚꽃 개화 지도</h1>
+    <p class="map-sub">지역을 터치하면 상세 정보를 볼 수 있어요</p>
+    <p class="map-src">출처: 웨더아이 · 기상청 평균치 기반 예상 · 날씨에 따라 변동 가능</p>
+    <div class="map-legend">
+      <span class="legend-item"><span class="legend-dot lg-peak"></span>만개</span>
+      <span class="legend-item"><span class="legend-dot lg-bloom"></span>개화 중</span>
+      <span class="legend-item"><span class="legend-dot lg-soon"></span>곧 개화</span>
+      <span class="legend-item"><span class="legend-dot lg-before"></span>개화 전</span>
+    </div>
+    <div class="map-box">
+      <div id="themap" class="themap"></div>
+    </div>
+    <div id="regionPanel" class="rpanel" style="display:none">
+      <button id="rpClose" class="rp-close">✕</button>
+      <div id="rpBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 축제 -->
+<section id="p-fest" class="panel">
+  <div class="page">
+    <h2 class="ph">🎪 2026 벚꽃 축제</h2>
+    <p class="ps">전국 주요 축제 예상 일정 · 공식 발표를 확인하세요</p>
+    <div class="api-notice" id="apiNotice" style="display:none">
+      <span class="api-dot"></span> 한국관광공사 API 실시간 데이터
+      <button class="api-refresh" id="apiRefresh" title="새로고침">↻</button>
+    </div>
+    <div class="fbar">
+      <input id="fSrch" class="finp" placeholder="축제명·지역 검색...">
+      <select id="fRgn" class="fsel"><option value="">전체 지역</option></select>
+    </div>
+    <div id="festGrid" class="grid"></div>
+  </div>
+</section>
+
+<!-- 명소 -->
+<section id="p-spot" class="panel">
+  <div class="page">
+    <h2 class="ph">📍 벚꽃 명소</h2>
+    <p class="ps">대표~숨은 명소 · 교통 & 사진 팁</p>
+    <div class="fbar">
+      <input id="sSrch" class="finp" placeholder="명소명·지역 검색...">
+      <select id="sCat" class="fsel"><option value="">전체</option><option value="대표">대표 명소</option><option value="숨은">숨은 명소</option></select>
+    </div>
+    <div id="spotGrid" class="grid"></div>
+  </div>
+</section>
+
+<!-- 체험·음식 -->
+<section id="p-exp" class="panel">
+  <div class="page">
+    <h2 class="ph">✨ 체험 & 🍽️ 봄 음식</h2>
+    <h3 class="subh">벚꽃 체험</h3>
+    <div id="expGrid" class="grid"></div>
+    <h3 class="subh" style="margin-top:40px">봄 음식 추천</h3>
+    <div id="foodGrid" class="grid"></div>
+  </div>
+</section>
+
+<!-- 플래너 -->
+<section id="p-plan" class="panel">
+  <div class="page">
+    <h2 class="ph">🗺️ 여행 플래너</h2>
+    <p class="ps">날짜를 선택하면 벚꽃 좋은 지역을 추천합니다</p>
+    <div class="planform">
+      <label>여행 날짜</label>
+      <input type="date" id="planDate" min="2026-03-15" max="2026-04-30">
+      <button class="pbtn" id="planBtn">추천받기</button>
+    </div>
+    <div id="planGrid" class="grid"></div>
+  </div>
+</section>
+
+<!-- 블로그 -->
+<section id="p-blog" class="panel">
+  <div class="page">
+    <h2 class="ph">📝 벚꽃 블로그</h2>
+    <p class="ps">벚꽃과 함께한 순간을 기록하고 공유하세요</p>
+    <div class="btabs">
+      <button class="btb on" data-bv="write">글쓰기</button>
+      <button class="btb" data-bv="my">내 글</button>
+      <button class="btb" data-bv="pub">공개 글</button>
+    </div>
+    <div id="bv-write" class="bview on">
+      <div class="beditor">
+        <input id="bTitle" class="btitle" placeholder="제목을 입력하세요">
+        <div class="bmeta">
+          <input type="date" id="bDate">
+          <input id="bLoc" placeholder="📍 장소">
+          <select id="bMood"><option value="🌸">🌸 설렘</option><option value="😊">😊 행복</option><option value="😌">😌 평온</option><option value="🥰">🥰 감동</option><option value="📸">📸 추억</option></select>
+          <label class="chk"><input type="checkbox" id="bPub" checked> 공개</label>
+        </div>
+        <textarea id="bText" rows="8" placeholder="오늘의 벚꽃 이야기..."></textarea>
+        <div class="bedact"><button class="pbtn" id="bSave">발행하기</button></div>
+      </div>
+    </div>
+    <div id="bv-my" class="bview"><div id="blogMy"></div></div>
+    <div id="bv-pub" class="bview"><div id="blogPub"></div></div>
+  </div>
+</section>
+
+<!-- 즐겨찾기 -->
+<section id="p-fav" class="panel">
+  <div class="page">
+    <h2 class="ph">⭐ 즐겨찾기</h2>
+    <p class="ps">관심 명소·축제를 모아보세요</p>
+    <div id="favGrid" class="grid"></div>
+    <p id="favEmpty" class="empty" style="display:none">아직 즐겨찾기한 항목이 없어요<br><small>명소·축제의 ⭐ 버튼으로 추가하세요</small></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>⚠️ 날씨에 따라 개화·만개 시기는 변동될 수 있습니다</p>
+  <p class="foot-s">출처: 웨더아이 · 기상청 · 한국관광공사 | 업데이트 2026.03 | 🌸 2026 한국 벚꽃 가이드</p>
+</footer>
+
+<!-- ★★★ 핵심 수정: data/ 접두어 제거 → 루트에서 직접 로드 ★★★ -->
+<script src="mapData.js"></script>
+<script src="bloomData.js"></script>
+<script src="festivalData.js"></script>
+<script src="spotsData.js"></script>
+<script src="experienceData.js"></script>
+<script src="foodData.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
